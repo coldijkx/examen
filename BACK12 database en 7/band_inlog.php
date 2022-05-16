@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>INLOG</title>
+</head>
+<body>
+<?php
+//als het formulier verstuurd
+if (isset($_POST['inlog']))
+{
+    //voeg de databseconnectie toe
+    require 'Config.php';
+    //lees de gegevens uit
+    $Naam = $_POST['Naam'];
+    $Land     = $_POST['land'];
+    //maak de query
+    $opdracht = "SELECT * FROM back12_bands
+                          WHERE Naam = '$Naam'
+                          AND Land = '$Land'";
+    //voer de query uit en vang het resultaat op
+    $resultaat = mysqli_query($mysqli, $opdracht);
+    //controleer of het resultaat een rij (user) heeft opgekleverd
+    if (mysqli_num_rows($resultaat) > 0)
+    {
+        echo "<p>Hallo $Naam, u bent ingelogd!</p>";
+        echo "<p><a href='band_uitlees.php'>Ga verder</a></p>";
+    }
+    //als het resultaat leeg id:
+    else
+    {
+        echo "<p>Naam en/of wachtwoord zijn onjuist.</p>";
+        echo "<p><a href='band_inlog.php'>Probeer opnieuw</a></p>";
+    }
+}
+//als het formulier niet is verstuurd
+else
+{
+    ?>
+    <h2>LOG IN</h2>
+    <?php
+}
+
+
+
+?>
+<h2>LOG IN:</h2>
+<form method = "post" action="">
+   <table border="0">
+    <tr>
+       <td>Band Naam</td>
+       <td><input type="text" name="Naam"></td>
+    </tr>
+    <tr>
+       <td>Land</td>
+       <td><input type="password" name="Land"></td>
+    </tr>
+    <tr>
+       <td>&nbsp;</td>
+       <td><input type="submit" name="inlog" value="LOG IN"></td>
+    </tr>
+    </table>
+</form>
+</body>
+</html>
+        
